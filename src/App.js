@@ -5,10 +5,13 @@ import "./App.css";
 import Routes from "./Routes";
 import { LinkContainer } from "react-router-bootstrap";
 import { Auth } from "aws-amplify";
+import { useHistory } from "react-router-dom";
+import { onError } from "./libs/errorLib";
 
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     onLoad();
@@ -20,7 +23,7 @@ function App() {
       userHasAuthenticated(true);
     } catch (e) {
       if (e !== "No current user") {
-        alert(e);
+        onError(e);
       }
     }
     setIsAuthenticating(false);
@@ -29,12 +32,13 @@ function App() {
   const handleLogout = async () => {
     await Auth.signOut();
     userHasAuthenticated(false);
+    history.push("/login");
   };
 
   return (
     !isAuthenticating && (
       <div className="App container">
-        <Navbar collapseOnSelect expand="lg" bg="light">
+        <Navbar fluid="true" collapseOnSelect expand="lg" bg="light">
           <Navbar.Brand href="/">Scratch</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
