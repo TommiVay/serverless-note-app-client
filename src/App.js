@@ -38,13 +38,24 @@ function App() {
   return (
     !isAuthenticating && (
       <div className="App container">
-        <Navbar fluid="true" collapseOnSelect expand="lg" bg="light">
+        <Navbar
+          className="Navbar"
+          fluid="true"
+          collapseOnSelect
+          expand="lg"
+          bg="light"
+        >
           <Navbar.Brand href="/">Scratch</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ml-auto">
               {isAuthenticated ? (
-                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                <>
+                  <LinkContainer to="/settings">
+                    <Nav.Link>Settings</Nav.Link>
+                  </LinkContainer>
+                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                </>
               ) : (
                 <>
                   <LinkContainer to="/signup">
